@@ -15,6 +15,9 @@
     library(sqldf)
 
 # import data
+# Code adapted from Michael Koohafkan
+# https://www.ocf.berkeley.edu/~mikeck/?p=688
+
         td <- tempdir()  # create a temporary directory
         tf <- tempfile(tmpdir=td, fileext=".zip")  # create the placeholder file
         
