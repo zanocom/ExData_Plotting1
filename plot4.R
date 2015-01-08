@@ -20,9 +20,10 @@
 
 
 # import data
+# download and unzip
 # Code adapted from Michael Koohafkan
 # https://www.ocf.berkeley.edu/~mikeck/?p=688
-
+    
     td <- tempdir()  # create a temporary directory
     tf <- tempfile(tmpdir=td, fileext=".zip")  # create the placeholder file
     
@@ -33,7 +34,9 @@
     unzip( tf, files=fname, exdir=td, overwrite=TRUE)  # unzip the file to the temporary directory
     fpath <- file.path(td, fname)  # fpath is the full path to the extracted file
     f <- file( fpath )    # open connection to fpath
-    
+
+
+# subset imported data
     data <- sqldf("select * 
                       from f
                       where Date in ('1/2/2007','2/2/2007')", 
@@ -41,6 +44,8 @@
                   file.format = list(header = T, row.names = F , sep=";" )  ) 
     
     close( f  ) # close connection
+
+
 #summary ( data )
 #head ( data , n= 100)
 #tail ( data , n= 100)

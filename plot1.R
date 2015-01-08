@@ -20,6 +20,7 @@
 
 
 # import data
+# download and unzip
 # Code adapted from Michael Koohafkan
 # https://www.ocf.berkeley.edu/~mikeck/?p=688
 
@@ -34,6 +35,8 @@
     fpath <- file.path(td, fname)  # fpath is the full path to the extracted file
     f <- file( fpath )    # open connection to fpath
 
+
+# subset imported data
     data <- sqldf("select * 
                   from f
                   where Date in ('1/2/2007','2/2/2007')", 

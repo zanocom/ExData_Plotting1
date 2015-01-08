@@ -15,27 +15,30 @@
     library(sqldf)
 
 # import data
+# download and unzip
 # Code adapted from Michael Koohafkan
 # https://www.ocf.berkeley.edu/~mikeck/?p=688
+    
+    td <- tempdir()  # create a temporary directory
+    tf <- tempfile(tmpdir=td, fileext=".zip")  # create the placeholder file
+    
+    download.file ("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip",
+                   destfile= tf )  # download into the placeholder file
+    
+    fname <- unzip(tf, list=TRUE)$Name[1]  # get the name of the first file in the zip archive
+    unzip( tf, files=fname, exdir=td, overwrite=TRUE)  # unzip the file to the temporary directory
+    fpath <- file.path(td, fname)  # fpath is the full path to the extracted file
+    f <- file( fpath )    # open connection to fpath
 
-        td <- tempdir()  # create a temporary directory
-        tf <- tempfile(tmpdir=td, fileext=".zip")  # create the placeholder file
-        
-        download.file ("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip",
-                       destfile= tf )  # download into the placeholder file
-        
-        fname <- unzip(tf, list=TRUE)$Name[1]  # get the name of the first file in the zip archive
-        unzip( tf, files=fname, exdir=td, overwrite=TRUE)  # unzip the file to the temporary directory
-        fpath <- file.path(td, fname)  # fpath is the full path to the extracted file
-        f <- file( fpath )    # open connection to fpath
-        
-        data <- sqldf("select * 
-                          from f
-                          where Date in ('1/2/2007','2/2/2007')", 
-                      dbname = tempfile() , 
-                      file.format = list(header = T, row.names = F , sep=";" )  ) 
-        
-        close( f  ) # close connection
+
+# subset imported data
+    data <- sqldf("select * 
+                      from f
+                      where Date in ('1/2/2007','2/2/2007')", 
+                  dbname = tempfile() , 
+                  file.format = list(header = T, row.names = F , sep=";" )  ) 
+    
+    close( f  ) # close connection
 
 
 #summary ( data )
